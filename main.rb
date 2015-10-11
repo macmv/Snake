@@ -8,7 +8,7 @@
 
 require "gosu"
 require "trollop"
-require "../Gosu_Library.rb"
+require "./Gosu_Library.rb"
 
 $opts = Trollop::options do
 	opt :fullscreen, "Go fullscreen"
