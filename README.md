@@ -1,0 +1,1 @@
+This is my fouth [Gosu](https://www.libgosu.org/) game, and I just wanted to share it with you. Use the arrow keys or W, A, S and D to change the direction of the snake. The game quits when you crash into yourself or the wall. When you eat the apple, the green circle, you get one longer, and your score goes up by one.
