@@ -77,7 +77,7 @@ class SnakeSegment
 	end
 
 	def off_screen?
-		@x <= 0 || @x >= WIDTH / BLOCKSIZE || @y <= 0 || @y >= WIDTH / BLOCKSIZE
+		@x <= 0 || @x >= WIDTH / BLOCKSIZE - 1 || @y <= 0 || @y >= WIDTH / BLOCKSIZE - 1
 	end
 
 end
@@ -191,10 +191,10 @@ class Screen < Gosu::Window
 			elsif return_val == :hit_wall || return_val == :hit_self
 				if @score > File.read("record.txt").to_i
 					puts '|\    |  |-----  \            /        |---\   |-----   /-----   /---\   |---\   |---\   | | |'
-						 '| \   |  |        \          /         |    |  |       |        |     |  |    |  |    |  | | |'
-						 '|  \  |  |--       \        /          |---/   |--     |        |     |  |---/   |    |  | | |'
-						 '|   \ |  |          \  /\  /           |   \   |       |        |     |  |   \   |    |'
-						 '|    \|  |-----      \/  \/            |    \  |-----   \-----   \---/   |    \  |---/   . . .'
+					puts '| \   |  |        \          /         |    |  |       |        |     |  |    |  |    |  | | |'
+					puts '|  \  |  |--       \        /          |---/   |--     |        |     |  |---/   |    |  | | |'
+					puts '|   \ |  |          \  /\  /           |   \   |       |        |     |  |   \   |    |'
+					puts '|    \|  |-----      \/  \/            |    \  |-----   \-----   \---/   |    \  |---/   . . .'
 					File.open("record.txt", "w") { |f| f.write @score }
 				end
 				exit
