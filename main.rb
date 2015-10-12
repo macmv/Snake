@@ -173,6 +173,7 @@ class Screen < Gosu::Window
 		@score = 0
 		@old_time = Time.new
 		@font = Gosu::Font.new 20
+		@speed = 300
 	end
 
 	def draw
@@ -180,38 +181,47 @@ class Screen < Gosu::Window
 		@snake.draw
 		@apple.draw
 		@font.draw("Score: #{@score}", BLOCKSIZE, BLOCKSIZE, 0, BLOCKSIZE.to_f / 20.0, BLOCKSIZE.to_f / 20.0, 0xff_ffcc00)
+		@font.draw("Speed: #{@speed}", BLOCKSIZE * 6, BLOCKSIZE, 0, BLOCKSIZE.to_f / 20.0, BLOCKSIZE.to_f / 20.0, 0xff_ffcc00)
 	end
 
 	def update
-		if time_diff_milli(@old_time, Time.new) > 300
-			return_val = @snake.update @apple
-			if return_val == :move_apple
-				@apple.move
-				@score += 1
-			elsif return_val == :hit_wall || return_val == :hit_self
-				if @score > File.read("record.txt").to_i
-					puts '|\    |  |-----  \            /        |---\   |-----   /-----   /---\   |---\   |---\   | | |'
-					puts '| \   |  |        \          /         |    |  |       |        |     |  |    |  |    |  | | |'
-					puts '|  \  |  |--       \        /          |---/   |--     |        |     |  |---/   |    |  | | |'
-					puts '|   \ |  |          \  /\  /           |   \   |       |        |     |  |   \   |    |'
-					puts '|    \|  |-----      \/  \/            |    \  |-----   \-----   \---/   |    \  |---/   . . .'
-					File.open("record.txt", "w") { |f| f.write @score }
+		if Gosu::button_down? Gosu::KbP
+			@paused = !@paused
+			sleep 0.2
+		end
+		if !@paused
+			if time_diff_milli(@old_time, Time.new) > @speed
+				return_val = @snake.update @apple
+				if return_val == :move_apple
+					@apple.move
+					@score += 1
+				elsif return_val == :hit_wall || return_val == :hit_self
+					if @score > File.read("record.txt").to_i
+						puts '|\    |  |-----  \            /        |---\   |-----   /-----   /---\   |---\   |---\   | | |'
+						puts '| \   |  |        \          /         |    |  |       |        |     |  |    |  |    |  | | |'
+						puts '|  \  |  |--       \        /          |---/   |--     |        |     |  |---/   |    |  | | |'
+						puts '|   \ |  |          \  /\  /           |   \   |       |        |     |  |   \   |    |'
+						puts '|    \|  |-----      \/  \/            |    \  |-----   \-----   \---/   |    \  |---/   . . .'
+						puts @score
+						File.open("record.txt", "w") { |f| f.write @score }
+					end
+					exit
 				end
-				exit
+				@old_time = Time.new
+				@speed = -@score + 300
 			end
-			@old_time = Time.new
-		end
-		if Gosu::button_down?(Gosu::KbW) || Gosu::button_down?(Gosu::KbUp)
-			@snake.set_direction :up
-		end
-		if Gosu::button_down?(Gosu::KbA) || Gosu::button_down?(Gosu::KbLeft)
-			@snake.set_direction :left
-		end
-		if Gosu::button_down?(Gosu::KbS) || Gosu::button_down?(Gosu::KbDown)
-			@snake.set_direction :down
-		end
-		if Gosu::button_down?(Gosu::KbD) || Gosu::button_down?(Gosu::KbRight)
-			@snake.set_direction :right
+			if Gosu::button_down?(Gosu::KbW) || Gosu::button_down?(Gosu::KbUp)
+				@snake.set_direction :up
+			end
+			if Gosu::button_down?(Gosu::KbA) || Gosu::button_down?(Gosu::KbLeft)
+				@snake.set_direction :left
+			end
+			if Gosu::button_down?(Gosu::KbS) || Gosu::button_down?(Gosu::KbDown)
+				@snake.set_direction :down
+			end
+			if Gosu::button_down?(Gosu::KbD) || Gosu::button_down?(Gosu::KbRight)
+				@snake.set_direction :right
+			end
 		end
 	end
 
