@@ -169,7 +169,7 @@ class Screen < Gosu::Window
 		self.caption = "Snake"
 		@board = Board.new
 		@snake = Snake.new
-		@apple = Apple.new self, Circle.new(BLOCKSIZE / 2, 0, 255, 0), false
+		@apple = Apple.new self, Circle.new(BLOCKSIZE / 2, 0, 255, 0)
 		@score = 0
 		@old_time = Time.new
 		@font = Gosu::Font.new 20
