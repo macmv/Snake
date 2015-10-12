@@ -174,6 +174,7 @@ class Screen < Gosu::Window
 		@old_time = Time.new
 		@font = Gosu::Font.new 20
 		@speed = 300
+		@paused = false
 	end
 
 	def draw
